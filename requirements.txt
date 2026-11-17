@@ -1,0 +1,23 @@
+# Only what 02_Master_Pipeline_fixed_v4.ipynb needs (CPU, Linux, Python 3.11).
+# No web framework, database, torch or sentence-transformers: the notebook does not use them.
+numpy==1.26.4
+pandas==2.3.3
+scipy
+scikit-learn==1.4.0
+xgboost
+matplotlib
+seaborn
+
+tensorflow==2.18.0
+mediapipe==0.10.14
+opencv-python==4.11.0.86
+
+# only for the ONNX MiniLM embedding function used by the retrieval fallback
+chromadb>=0.5.3,<0.6
+groq>=0.9.0
+python-dotenv==1.0.1
+
+jupyterlab
+ipykernel
+# TODO after first working build: `pip freeze > requirements.lock`, commit it, and pin
+# xgboost/scipy/matplotlib/seaborn to the versions you used on Windows.

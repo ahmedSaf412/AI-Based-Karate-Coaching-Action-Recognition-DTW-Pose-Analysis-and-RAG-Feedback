@@ -1,0 +1,25 @@
+services:
+  lab:
+    build:
+      context: .
+      args:
+        HOST_UID: "${HOST_UID:-1000}"
+        HOST_GID: "${HOST_GID:-1000}"
+    image: karate-paper:1.0
+    ports:
+      - "127.0.0.1:8888:8888"            # reachable from this machine only
+    env_file: .env                        # GROQ_API_KEY, GROQ_MODEL (never baked into the image)
+    environment:
+      JUPYTER_TOKEN: "${JUPYTER_TOKEN:-karate}"
+      KARATE_DATA: /data
+      PYTHONHASHSEED: "0"                 # must be set before Python starts
+      TF_DETERMINISTIC_OPS: "1"
+      TF_ENABLE_ONEDNN_OPTS: "0"
+    volumes:
+      - ./:/workspace/karate-paper                    # code, notebook, Results/ (persist on host)
+      - ${DATA_DIR:-./data}:/data:ro                  # CSV + videos, read-only (can live on the HDD)
+      - model_cache:/home/dev/.cache                  # MiniLM/ONNX weights, downloaded once
+    shm_size: "2gb"
+
+volumes:
+  model_cache:
